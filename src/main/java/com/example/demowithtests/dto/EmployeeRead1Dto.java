@@ -29,5 +29,5 @@ public class EmployeeRead1Dto {
     public String phone;
 
     //todo: dfhgjkdfhg Jira - 5544
-   public Date date = Date.from(Instant.now());
+   //public Date date = Date.from(Instant.now());
 }
