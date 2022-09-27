@@ -3,7 +3,8 @@ package com.example.demowithtests.web;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.Service;
-import com.example.demowithtests.util.config.EmployeeConverter;
+import com.example.demowithtests.service.ServiceBean;
+import com.example.demowithtests.util.config.mapStrukt.EmployeeMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,29 +25,21 @@ import java.util.List;
 public class Controller {
 
     private final Service service;
-    private final EmployeeConverter converter;
+    private final EmployeeMapper employeeMapper;
 
 
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-        public EmployeeSave1Dto saveEmployee(@RequestBody @Valid EmployeeSave1Dto requestForSave) {
-
-        Employee employee = converter.getMapperFacade().map(requestForSave, Employee.class);
-        EmployeeSave1Dto dto = converter.toSaveDto(service.create(employee));
-
-        return dto;
+    public Employee saveEmployee(@RequestBody Employee employee) {
+        return service.create(employee);
     }
 
     //save dto2
     @PostMapping("/users/save2")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeSave2Dto saveEmployee2(@RequestBody @Valid EmployeeSave2Dto requestForSave) {
-
-        var employee = converter.getMapperFacade().map(requestForSave, Employee.class);
-        var dto = converter.toSave2Dto(service.create(employee));
-
-        return dto;
+    public EmployeeSave1Dto saveEmployee2(@RequestBody Employee employee) {
+        return employeeMapper.employeeSave2Dto(service.create(employee));
     }
 
     //Получение списка юзеров
@@ -60,24 +52,14 @@ public class Controller {
     //Получения юзера по id
     @GetMapping("/users/dto1/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeRead1Dto getEmployeeById(@PathVariable Integer id) {
-        log.debug("getEmployeeById() Controller - start: id = {}", id);
-        var employee = service.getById(id);
-        log.debug("getById() Controller - to dto start: id = {}", id);
-        var dto = converter.toReadDto(employee);
-        log.debug("getEmployeeById() Controller - end: name = {}", dto.name);
-        return dto;
+    public Employee getEmployeeById(@PathVariable Integer id) {
+        return service.getById(id);
     }
 
     @GetMapping("/users/dto2/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeRead2Dto getEmployeeById2 (@PathVariable Integer id) {
-        log.debug("getEmployeeById() Controller - start: id = {}", id);
-        var employee = service.getById(id);
-        log.debug("getById() Controller - to dto start: id = {}", id);
-        var dto = converter.toRead2Dto(employee);
-        log.debug("getEmployeeById() Controller - end: name = {}", dto.name);
-        return dto;
+    public EmployeeRead1Dto getEmployeeById2Dto(@PathVariable Integer id) {
+        return employeeMapper.employeeReadDto(service.getById(id));
     }
 
     //Получения юзеров по имени
@@ -118,17 +100,15 @@ public class Controller {
     //Обновление юзера
     @PatchMapping("/users/update1/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeUpdate1Dto refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
-        EmployeeUpdate1Dto dto = converter.toUpdateDto(service.updateById(id, employee));
-        return dto;
+    public EmployeeUpdate1Dto updateDto(@PathVariable("id") Integer id, @RequestBody Employee employee) {
+        return employeeMapper.employeeUpdateDto(service.updateById(id, employee));
     }
 
     //Обновление юзерa по стране2
     @PutMapping("/users/update2/{country}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeUpdate2Dto refreshEmployee2(@PathVariable("id") Integer id, @RequestBody Employee employee) {
-        EmployeeUpdate2Dto dto = converter.toUpdate2Dto(service.updateById(id, employee));
-        return dto;
+    public EmployeeUpdate1Dto update2Dto(@PathVariable("id") Integer id, @RequestBody Employee employee) {
+        return employeeMapper.employeeUpdateDto(service.updateById(id, employee));
     }
 
     //Удаление по id
