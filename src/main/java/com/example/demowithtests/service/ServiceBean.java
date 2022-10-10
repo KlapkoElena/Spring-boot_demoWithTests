@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
@@ -170,6 +171,44 @@ public class ServiceBean implements Service {
             sorts.add(new Sort.Order(direction, sort));
         }
         return sorts;
+    }
+
+    @Override
+    public List<String> findStreamName() {
+        List<Employee> allEmployee = repository.findAll();
+        return allEmployee.stream()
+                .map(n -> n.getName())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findStreamCountry() {
+        List<Employee> allEmployee = repository.findAll();
+        return allEmployee.stream()
+                .map(n -> n.getCountry())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findNameAndCountry() {
+        List<Employee> nameAndCountry = repository.findAll();
+        return nameAndCountry.stream()
+                .map(n -> "name-" + n.getName() + " (country: " + n.getCountry() + ")")
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findNamePhoneAddress() {
+        List<Employee> namePhoneAddress = repository.findAll();
+        return namePhoneAddress.stream()
+                .map(n -> "name-" + n.getName() + " (phone: " + n.getPhone() + ")" + " (address: " + n.getAdress() + ")")
+                .sorted()
+                .collect(Collectors.toList());
     }
 
 }

@@ -3,7 +3,6 @@ package com.example.demowithtests.web;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.Service;
-import com.example.demowithtests.service.ServiceBean;
 import com.example.demowithtests.util.config.mapStrukt.EmployeeMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -249,4 +248,61 @@ public class Controller {
                                         @RequestParam(defaultValue = "ASC") Sort.Direction sortOrder) {
         return service.findByCountry(country, page, size, sortList, sortOrder.toString());
     }
+
+    @GetMapping("/users/fsn")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "This is endpoint Search for names in the database" +
+            "and return a list of names in the database.", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    public List<String> getAllName() {
+        return service.findStreamName();
+    }
+
+    @GetMapping("/users/fsc")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "This is endpoint Search for countries in the database" +
+            "and return a list of countries in the database.", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    public List<String> getAllCountry() {
+        return service.findStreamCountry();
+    }
+
+    @GetMapping("/users/nc")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "This is endpoint Find all users countries" +
+            "and return a list of all the countries in the database.", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    public List<String> getNamesAndCountry() {
+        return service.findNameAndCountry();
+    }
+
+    @GetMapping("/users/npa")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "This is endpoint Find all users phones numbers and emails" +
+            "and return a list of all the phone numbers and emails in the database.", description =
+            "Create request to read all employee", tags = {"Employee"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK. Information was get successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
+            @ApiResponse(responseCode = "409", description = "Employee already exists")})
+    public List<String> getNamesPhonesAddress() {
+        return service.findNamePhoneAddress();
+    }
+
 }
