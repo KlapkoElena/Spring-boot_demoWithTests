@@ -78,10 +78,9 @@ public interface Service {
     List<String> findNameAndCountry();
 
     /**
-     * Find the name and phone number of all customers.
+     * Find all the names, phone numbers, and addresses of all the people in the database.
      *
      * @return A list of strings.
      */
-    // Returning a list of strings.
     List<String> findNamePhoneAddress();
 }
