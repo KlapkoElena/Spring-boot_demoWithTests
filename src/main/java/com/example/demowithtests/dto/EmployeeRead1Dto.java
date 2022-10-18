@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EmployeeRead1Dto {
 
@@ -28,6 +30,9 @@ public class EmployeeRead1Dto {
     @NotNull(message = "Phone may not be null")
     public String phone;
 
+    public Set<MobilePhoneDto> mobilePhones = new HashSet<>();
     //todo: dfhgjkdfhg Jira - 5544
    public Date date = Date.from(Instant.now());
+
+   public CardDto card;
 }
