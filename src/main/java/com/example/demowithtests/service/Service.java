@@ -2,6 +2,7 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -83,4 +84,15 @@ public interface Service {
      * @return A list of strings.
      */
     List<String> findNamePhoneAddress();
+
+    /**
+     * "Given a username, return a UserDetails object that represents the user."
+     *
+     * The UserDetails object is a Spring Security interface that represents a user. It has a number of methods that return
+     * information about the user, such as their username, password, and authorities
+     *
+     * @param username The username of the user you want to load.
+     * @return A UserDetails object.
+     */
+    UserDetails loadUserByUsername(String username);
 }

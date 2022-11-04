@@ -25,6 +25,11 @@ public class Employee {
     private String adress;
     private int phone;
 
+    private String username;
+
+    private String password;
+
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Set<MobilePhone> mobilePhones = new HashSet<>();
@@ -32,6 +37,23 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Card card;
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

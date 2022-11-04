@@ -40,4 +40,7 @@ public interface Repository extends JpaRepository<Employee, Integer> {
 
     // поиск по стране c применением пагинации, фильтрации, сортировки
     Page<Employee> findByCountry(String name, Pageable pageable);
+
+    // поиск пользователей по логину
+    Optional<Employee> findByUsername(String username);
 }
